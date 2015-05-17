@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">FeetConverterAndroid23</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="ft2m">ft =&gt; m</string>
+    <string name="m2ft">m =&gt; ft</string>
+    <string name="defaultVal">33</string>    
+
+</resources>
