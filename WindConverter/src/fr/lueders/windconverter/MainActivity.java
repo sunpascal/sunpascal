@@ -2,12 +2,18 @@ package fr.lueders.windconverter;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.view.Menu;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class MainActivity extends Activity {
+	
+	Resources res;
+	
 	
 	/**
 	 * displays information about given Beaufort force 
@@ -25,7 +31,11 @@ public class MainActivity extends Activity {
 		TextView guiOutputValue = (TextView) findViewById(R.id.textView1);
 		TextView guiOutputBeaufortNumber = (TextView) findViewById(R.id.TextView01);
 		TextView guiOutputBeaufortDescr = (TextView) findViewById(R.id.TextView02);
-		EditText guiInput = (EditText) findViewById(R.id.editText1);
+		TextView guiOutputBeaufortEffectSea = (TextView) findViewById(R.id.aufSee);
+		TextView guiOutputBeaufortEffectLand = (TextView) findViewById(R.id.textView4);
+		ImageView imageView1 = (ImageView) findViewById(R.id.imageView);
+		
+		EditText guiInput = (EditText) findViewById(R.id.input);
 	    float inputValue = Float.parseFloat(guiInput.getText().toString());
 	    double outputValue = 0; 
 	    Beaufort b = null; 
@@ -42,7 +52,7 @@ public class MainActivity extends Activity {
 	    	}
 	    	
 	    	// user entered value in km/h
-	    	case R.id.button2: {
+	    	case R.id.kmh: {
 	    		outputValue = c.convert(inputValue, 1/conversion);
 	    		 b = c.getBeaufort((int)outputValue);  
 	    		 appendUnit = " knots";
@@ -58,12 +68,42 @@ public class MainActivity extends Activity {
     		guiOutputValue.setText(String .valueOf(outputValue) + appendUnit);
     		guiOutputBeaufortNumber.setText("Windstärke: " + Integer.toString(b.n));
     		guiOutputBeaufortDescr.setText(b.descr);
-    	}
+    		guiOutputBeaufortEffectSea.setText(b.wirkungAufSee);
+    		guiOutputBeaufortEffectLand.setText(b.wirkungAufLand);
+    		
+    		Drawable drawable = null;
+    	
+    		switch (b.n) {	
+	    		case 1: drawable = res.getDrawable(R.drawable.beaufort_scale_0);    		
+	    		case 2: drawable = res.getDrawable(R.drawable.beaufort_scale_1);
+	    		case 3: drawable = res.getDrawable(R.drawable.beaufort_scale_3);	
+	    		case 4: drawable = res.getDrawable(R.drawable.beaufort_scale_4);
+	    		case 5: drawable = res.getDrawable(R.drawable.beaufort_scale_5);
+	    		case 6: drawable = res.getDrawable(R.drawable.beaufort_scale_6);
+	    		case 7: drawable = res.getDrawable(R.drawable.beaufort_scale_7);
+	    		case 8: drawable = res.getDrawable(R.drawable.beaufort_scale_8);
+	    		case 9: drawable = res.getDrawable(R.drawable.beaufort_scale_9);
+	    		case 10: drawable = res.getDrawable(R.drawable.beaufort_scale_10);
+	    		case 11: drawable = res.getDrawable(R.drawable.beaufort_scale_11);
+	    		case 12: drawable = res.getDrawable(R.drawable.beaufort_scale_12);
+    		}
+    		
+    		if (drawable != null) {
+    			imageView1.setImageDrawable(drawable);
+    			imageView1.setVisibility(View.VISIBLE);
+    		}
+    		else {
+    			imageView1.setVisibility(View.INVISIBLE);
+    		}
     	
     } 		
+    	
+    }
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		
+		res = getResources();
 		
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
@@ -74,6 +114,8 @@ public class MainActivity extends Activity {
 		guiOutputValue.setText("");
 		guiOutputBeaufortNumber.setText("");
 		guiOutputBeaufortDescr.setText("");
+		
+		
 		
 	}
 
