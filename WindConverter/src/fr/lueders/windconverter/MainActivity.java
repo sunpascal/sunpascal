@@ -74,18 +74,18 @@ public class MainActivity extends Activity {
     		Drawable drawable = null;
     	
     		switch (b.n) {	
-	    		case 1: drawable = res.getDrawable(R.drawable.beaufort_scale_0);    		
-	    		case 2: drawable = res.getDrawable(R.drawable.beaufort_scale_1);
-	    		case 3: drawable = res.getDrawable(R.drawable.beaufort_scale_3);	
-	    		case 4: drawable = res.getDrawable(R.drawable.beaufort_scale_4);
-	    		case 5: drawable = res.getDrawable(R.drawable.beaufort_scale_5);
-	    		case 6: drawable = res.getDrawable(R.drawable.beaufort_scale_6);
-	    		case 7: drawable = res.getDrawable(R.drawable.beaufort_scale_7);
-	    		case 8: drawable = res.getDrawable(R.drawable.beaufort_scale_8);
-	    		case 9: drawable = res.getDrawable(R.drawable.beaufort_scale_9);
-	    		case 10: drawable = res.getDrawable(R.drawable.beaufort_scale_10);
-	    		case 11: drawable = res.getDrawable(R.drawable.beaufort_scale_11);
-	    		case 12: drawable = res.getDrawable(R.drawable.beaufort_scale_12);
+	    		case 0: drawable = res.getDrawable(R.drawable.beaufort_scale_0); break;	
+	    		case 1: drawable = res.getDrawable(R.drawable.beaufort_scale_1); break;	
+	    		case 2: drawable = res.getDrawable(R.drawable.beaufort_scale_3); break;	
+	    		case 3: drawable = res.getDrawable(R.drawable.beaufort_scale_4); break;	
+	    		case 4: drawable = res.getDrawable(R.drawable.beaufort_scale_5); break;	
+	    		case 5: drawable = res.getDrawable(R.drawable.beaufort_scale_6); break;	
+	    		case 6: drawable = res.getDrawable(R.drawable.beaufort_scale_7); break;	
+	    		case 7: drawable = res.getDrawable(R.drawable.beaufort_scale_8); break;	
+	    		case 8: drawable = res.getDrawable(R.drawable.beaufort_scale_9); break;	
+	    		case 9: drawable = res.getDrawable(R.drawable.beaufort_scale_10); break;	
+	    		case 10: drawable = res.getDrawable(R.drawable.beaufort_scale_11); break;	
+	    		case 11: drawable = res.getDrawable(R.drawable.beaufort_scale_12); break;	
     		}
     		
     		if (drawable != null) {
