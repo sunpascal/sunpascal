@@ -29,8 +29,8 @@ public class MainActivity extends Activity {
     	double conversion = c.getConversionConst();
     	
 		TextView guiOutputValue = (TextView) findViewById(R.id.textView1);
-		TextView guiOutputBeaufortNumber = (TextView) findViewById(R.id.TextView01);
-		TextView guiOutputBeaufortDescr = (TextView) findViewById(R.id.TextView02);
+		TextView guiOutputBeaufortNumber = (TextView) findViewById(R.id.windForce);
+		TextView guiOutputBeaufortDescr = (TextView) findViewById(R.id.windForceDescription);
 		TextView guiOutputBeaufortEffectSea = (TextView) findViewById(R.id.aufSee);
 		TextView guiOutputBeaufortEffectLand = (TextView) findViewById(R.id.textView4);
 		ImageView imageView1 = (ImageView) findViewById(R.id.imageView);
@@ -63,10 +63,10 @@ public class MainActivity extends Activity {
 	    		outputValue = 0; 
     	}
     	
-    	if (outputValue !=0 & b != null) {
+    	if (outputValue >=0 & b != null) {
     		outputValue = c.round(outputValue);
     		guiOutputValue.setText(String .valueOf(outputValue) + appendUnit);
-    		guiOutputBeaufortNumber.setText("Windst‰rke: " + Integer.toString(b.n));
+    		guiOutputBeaufortNumber.setText("Windst√§rke: " + Integer.toString(b.n));
     		guiOutputBeaufortDescr.setText(b.descr);
     		guiOutputBeaufortEffectSea.setText(b.wirkungAufSee);
     		guiOutputBeaufortEffectLand.setText(b.wirkungAufLand);
@@ -76,16 +76,17 @@ public class MainActivity extends Activity {
     		switch (b.n) {	
 	    		case 0: drawable = res.getDrawable(R.drawable.beaufort_scale_0); break;	
 	    		case 1: drawable = res.getDrawable(R.drawable.beaufort_scale_1); break;	
-	    		case 2: drawable = res.getDrawable(R.drawable.beaufort_scale_3); break;	
-	    		case 3: drawable = res.getDrawable(R.drawable.beaufort_scale_4); break;	
-	    		case 4: drawable = res.getDrawable(R.drawable.beaufort_scale_5); break;	
-	    		case 5: drawable = res.getDrawable(R.drawable.beaufort_scale_6); break;	
-	    		case 6: drawable = res.getDrawable(R.drawable.beaufort_scale_7); break;	
-	    		case 7: drawable = res.getDrawable(R.drawable.beaufort_scale_8); break;	
-	    		case 8: drawable = res.getDrawable(R.drawable.beaufort_scale_9); break;	
-	    		case 9: drawable = res.getDrawable(R.drawable.beaufort_scale_10); break;	
-	    		case 10: drawable = res.getDrawable(R.drawable.beaufort_scale_11); break;	
-	    		case 11: drawable = res.getDrawable(R.drawable.beaufort_scale_12); break;	
+	    		case 2: drawable = res.getDrawable(R.drawable.beaufort_scale_2); break;	
+	    		case 3: drawable = res.getDrawable(R.drawable.beaufort_scale_3); break;	
+	    		case 4: drawable = res.getDrawable(R.drawable.beaufort_scale_4); break;	
+	    		case 5: drawable = res.getDrawable(R.drawable.beaufort_scale_5); break;	
+	    		case 6: drawable = res.getDrawable(R.drawable.beaufort_scale_6); break;	
+	    		case 7: drawable = res.getDrawable(R.drawable.beaufort_scale_7); break;	
+	    		case 8: drawable = res.getDrawable(R.drawable.beaufort_scale_8); break;	
+	    		case 9: drawable = res.getDrawable(R.drawable.beaufort_scale_9); break;	
+	    		case 10: drawable = res.getDrawable(R.drawable.beaufort_scale_10); break;	
+	    		case 11: drawable = res.getDrawable(R.drawable.beaufort_scale_11); break;
+	    		case 12: drawable = res.getDrawable(R.drawable.beaufort_scale_12); break;
     		}
     		
     		if (drawable != null) {
@@ -109,8 +110,8 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.activity_main);
 		
 		TextView guiOutputValue = (TextView) findViewById(R.id.textView1);
-		TextView guiOutputBeaufortNumber = (TextView) findViewById(R.id.TextView01);
-		TextView guiOutputBeaufortDescr = (TextView) findViewById(R.id.TextView02);
+		TextView guiOutputBeaufortNumber = (TextView) findViewById(R.id.windForce);
+		TextView guiOutputBeaufortDescr = (TextView) findViewById(R.id.windForceDescription);
 		guiOutputValue.setText("");
 		guiOutputBeaufortNumber.setText("");
 		guiOutputBeaufortDescr.setText("");
