@@ -122,7 +122,7 @@
             android:layout_alignParentRight="true"
             android:layout_alignTop="@+id/imageView"
             android:layout_marginTop="0dp"
-            android:text="TextViewLand" />
+            android:text="" />
 
         <TextView
             android:id="@+id/aufSee"
@@ -131,7 +131,7 @@
             android:layout_above="@+id/imageView"
             android:layout_alignParentLeft="true"
             android:layout_alignParentRight="true"
-            android:text="TextViewSee" />
+            android:text="" />
     </LinearLayout>
 
         <LinearLayout
