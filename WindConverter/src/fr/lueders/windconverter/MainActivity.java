@@ -2,40 +2,33 @@ package fr.lueders.windconverter;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
+
 import android.view.Menu;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
-public class MainActivity extends Activity {
+public class MainActivity extends SwipeActivity {
 	
 	Resources res;
+	TextView guiOutputValue;
+	TextView guiOutputBeaufortNumber;
+	TextView guiOutputBeaufortDescr;
+	TextView guiOutputBeaufortEffectSea;
+	TextView guiOutputBeaufortEffectLand;
+	ImageView imageView1;	
+	EditText guiInput;
+	Converter converter;
 	
-	
-	/**
-	 * displays information about given Beaufort force 
-	 * @param force beaufort force number for which to load info
-	 */
-	private void loadBeaufort(int force) {
-		// load number, descr. text (land+see), img
-		
-	}
 	
     public void onClick(View view) {
-    	Converter c = new Converter(); 
-    	double conversion = c.getConversionConst();
-    	
-		TextView guiOutputValue = (TextView) findViewById(R.id.textView1);
-		TextView guiOutputBeaufortNumber = (TextView) findViewById(R.id.windForce);
-		TextView guiOutputBeaufortDescr = (TextView) findViewById(R.id.windForceDescription);
-		TextView guiOutputBeaufortEffectSea = (TextView) findViewById(R.id.aufSee);
-		TextView guiOutputBeaufortEffectLand = (TextView) findViewById(R.id.textView4);
-		ImageView imageView1 = (ImageView) findViewById(R.id.imageView);
-		
-		EditText guiInput = (EditText) findViewById(R.id.input);
+
 	    float inputValue = Float.parseFloat(guiInput.getText().toString());
 	    double outputValue = 0; 
 	    Beaufort b = null; 
@@ -45,16 +38,16 @@ public class MainActivity extends Activity {
     		// user entered value in knots
 	    	case R.id.button1: {
 	    		//Toast.makeText(this, "Button 1", Toast.LENGTH_LONG).show();
-	    	    outputValue = c.convert(inputValue, conversion);
-	    	    b = c.getBeaufort((int)inputValue);  // todo: check rounding
+	    	    outputValue = converter.convert(inputValue, converter.getConversionConst());
+	    	    b = converter.getBeaufortFromKnots((int)inputValue);  // todo: check rounding
 	    	    appendUnit = " km/h";
 	    	    break; 
 	    	}
 	    	
 	    	// user entered value in km/h
 	    	case R.id.kmh: {
-	    		outputValue = c.convert(inputValue, 1/conversion);
-	    		 b = c.getBeaufort((int)outputValue);  
+	    		outputValue = converter.convert(inputValue, 1/converter.getConversionConst());
+	    		 b = converter.getBeaufortFromKnots((int)outputValue);  
 	    		 appendUnit = " knots";
 	    		break; 
 	    	}    	
@@ -63,10 +56,16 @@ public class MainActivity extends Activity {
 	    		outputValue = 0; 
     	}
     	
-    	if (outputValue >=0 & b != null) {
-    		outputValue = c.round(outputValue);
+    	updateGUI(b, outputValue, appendUnit); 
+    	
+    	
+    }
+
+	private void updateGUI(Beaufort b, double outputValue, String appendUnit) {
+	 	if (outputValue >=0 & b != null) {
+    		outputValue = converter.round(outputValue);
     		guiOutputValue.setText(String .valueOf(outputValue) + appendUnit);
-    		guiOutputBeaufortNumber.setText("Windstärke: " + Integer.toString(b.n));
+    		guiOutputBeaufortNumber.setText(Integer.toString(b.n));
     		guiOutputBeaufortDescr.setText(b.descr);
     		guiOutputBeaufortEffectSea.setText(b.wirkungAufSee);
     		guiOutputBeaufortEffectLand.setText(b.wirkungAufLand);
@@ -98,8 +97,8 @@ public class MainActivity extends Activity {
     		}
     	
     } 		
-    	
-    }
+		
+	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -109,26 +108,62 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
-		TextView guiOutputValue = (TextView) findViewById(R.id.textView1);
-		TextView guiOutputBeaufortNumber = (TextView) findViewById(R.id.windForce);
-		TextView guiOutputBeaufortDescr = (TextView) findViewById(R.id.windForceDescription);
+    	converter = new Converter(); 
+    	
+		guiOutputValue = (TextView) findViewById(R.id.textView1);
+		guiOutputBeaufortNumber = (TextView) findViewById(R.id.windForce);
+		guiOutputBeaufortDescr = (TextView) findViewById(R.id.windForceDescription);
+		guiOutputBeaufortEffectSea = (TextView) findViewById(R.id.aufSee);
+		guiOutputBeaufortEffectLand = (TextView) findViewById(R.id.textView4);
+		imageView1 = (ImageView) findViewById(R.id.imageView);
+		guiInput = (EditText) findViewById(R.id.input);		
+		
 		guiOutputValue.setText("");
 		guiOutputBeaufortNumber.setText("");
 		guiOutputBeaufortDescr.setText("");
 		
-		
-		
+		Beaufort b = converter.getBeaufort(0);
+		int knots = converter.getKnotsFromBeaufort(0);
+		updateGUI(b, knots, " knots");
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-
-				
-		
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
 	}
+
+	@Override
+	protected void previous() {
+		int i_b = 0;
+		if (guiOutputBeaufortNumber.getText().length() > 0)
+			i_b = Integer.parseInt((String) guiOutputBeaufortNumber.getText());
+		if (i_b > 0)
+			i_b = i_b - 1; 
+		Beaufort b = converter.getBeaufort(i_b);
+		int knots = converter.getKnotsFromBeaufort(i_b);
+		updateGUI(b, knots, " knots");
+//		guiInput.setText(""+knots);
+	}
+
+	@Override
+	protected void next() {
+		int i_b = 0;
+		if (guiOutputBeaufortNumber.getText().length() > 0)
+			i_b = Integer.parseInt((String) guiOutputBeaufortNumber.getText());
+		if (i_b < 12)
+			i_b = i_b + 1; 		
+		Beaufort b = converter.getBeaufort(i_b);
+		int knots = converter.getKnotsFromBeaufort(i_b);
+		updateGUI(b, knots, " knots");
+//		guiInput.setText(""+knots);
+//		Toast.makeText(this, "right", 500).show();
+	}
+	
+
+
+
 	
 
 

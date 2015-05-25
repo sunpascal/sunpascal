@@ -1,5 +1,6 @@
 package fr.lueders.windconverter;
 
+import java.util.Map.Entry;
 import java.util.NavigableMap;
 import java.util.TreeMap;
 
@@ -18,17 +19,36 @@ public class Converter {
 		map.put(16, new Beaufort(5, "frische Brise", "lange, mässig hohe Wellen, überall Schaumkronen", "Größere Zweige bewegen sich, Bäume wiegen sich im Wind, deutlich hörbarer Wind"));
 		map.put(22, new Beaufort(6, "starker Wind", "Größere Wellen, flächig Schaumkronen, Wellenkämme brechen, Gischt beginnt aufzukommen", " Dicke Äste, große Bäume bewegen sich, Wind beginnt z.B. an Drahtseilen zu pfeifen"));
 		map.put(28, new Beaufort(7, "steifer Wind", "Wellen türmen sich auf, Schaum löst sich von den Wellenkämmen ab", " Bäume beginnen zusehends zu schwanken, beim Gehen deutlicher Widerstand gegen den Wind."));
-		map.put(34, new Beaufort(8, "Stürmischer Wind", " mäßig hohe Wellenberge, lange Wellenkämme, Gischt weht �berall ab, Schaumstreifen durchziehen die See", " Gro�e B�ume schwanken, erste Zweige brechen ab, erhebliche Behinderungen beim Gehen, klappernde Fensterl�den an den H�usern."));
-		map.put(41, new Beaufort(9, "Sturm", "hohe Wellenberge, See beginnt zu \"rollen\", Schaumstreifen �berall, Gischt beeinträchtigt die Sicht", "Äste brechen ab, erste kleinere Sch�den an H�usern m�glich, Ziegel werden angehoben, Gartenm�bel werden umgeworfen, Bauger�ste schwanken teils erheblich, unbefestigte Kleingegenst�nde werden bewegt oder umgeworfen. erheblich starke Behinderung beim Gehen, Lastwagen und Anghänger werden bei Seitenwindb�en aus der Spur geworfen."));
-		map.put(48, new Beaufort(10, "Schwerer Sturm", "sehr hohe Wellenberge, lange überbrechende D�mme, weisse rollende See durch Schaum und Gischt, Sichtbehinderungen durch Gischt", " B�ume werden entwurzelt, Bauger�ste k�nnen umfallen, Gartenm�bel werden weggeweht, gr��ere Sch�den an H�usern, Lastwagen oder Angh�nger k�nnen durch Seitenwindb�en umgeworfen werden."));
-		map.put(56, new Beaufort(11, "Orkanartiger Sturm", "Extrem hohe Wellenberge, Wellenkämme werden zu Gischt zerblasen, die See \"rollt\" extrem schwer und ruckartig, Wellen t�rmen sich meterhoch, Sicht deutlich eingeschränkt.", " schwere Sturmsch�den zu erwarten, in W�ldern gro�fl�chiger Windbruch m�glich, D�cher werden abgedeckt, Gehen nahezu unmöglich, Autofahren lebensgefährlich, gröere Schäden an Häusern, Verkehrsschilder und Ampelanlagen k�nnen besch�digt werden."));
-		map.put(64, new Beaufort(12, "Orkan", "Extreme meterhohe Wellen, Luft mit Schaum und Gischt vollgefüllt, Sicht kaum noch vorhanden, See ist vollständig weiss", "Schwerste Schäden an Häusern, Wäldern und im Verkher. Aufenthalt im Freien lebensgef�hrlich, auch schwere unbefestigte  Gegenst�nde werden mitgerissen. mitgeschleift."));
+		map.put(34, new Beaufort(8, "Stürmischer Wind", " mäßig hohe Wellenberge, lange Wellenkämme, Gischt weht überall ab, Schaumstreifen durchziehen die See", " Große Bäume schwanken, erste Zweige brechen ab, erhebliche Behinderungen beim Gehen, klappernde Fensterläden an den Häusern."));
+		map.put(41, new Beaufort(9, "Sturm", "hohe Wellenberge, See beginnt zu \"rollen\", Schaumstreifen überall, Gischt beeinträchtigt die Sicht", "Äste brechen ab, erste kleinere Schäden an Häusern möglich, Ziegel werden angehoben, Gartenmöbel werden umgeworfen, Baugerüste schwanken teils erheblich, unbefestigte Kleingegenst�nde werden bewegt oder umgeworfen. erheblich starke Behinderung beim Gehen, Lastwagen und Anghänger werden bei Seitenwindböen aus der Spur geworfen."));
+		map.put(48, new Beaufort(10, "Schwerer Sturm", "sehr hohe Wellenberge, lange überbrechende Dämme, weisse rollende See durch Schaum und Gischt, Sichtbehinderungen durch Gischt", " Bäume werden entwurzelt, Baugerüste können umfallen, Gartenmöbel werden weggeweht, größere Schäden an Häusern, Lastwagen oder Anghänger können durch Seitenwindböen umgeworfen werden."));
+		map.put(56, new Beaufort(11, "Orkanartiger Sturm", "Extrem hohe Wellenberge, Wellenkämme werden zu Gischt zerblasen, die See \"rollt\" extrem schwer und ruckartig, Wellen türmen sich meterhoch, Sicht deutlich eingeschränkt.", " schwere Sturmschäden zu erwarten, in Wäldern großflächiger Windbruch möglich, Dächer werden abgedeckt, Gehen nahezu unmöglich, Autofahren lebensgefährlich, größere Schäden an Häusern, Verkehrsschilder und Ampelanlagen können beschädigt werden."));
+		map.put(64, new Beaufort(12, "Orkan", "Extreme meterhohe Wellen, Luft mit Schaum und Gischt vollgefüllt, Sicht kaum noch vorhanden, See ist vollständig weiss", "Schwerste Schäden an Häusern, Wäldern und im Verkher. Aufenthalt im Freien lebensgefährlich, auch schwere unbefestigte  Gegenstände werden mitgerissen/mitgeschleift."));
 		
 	}
 	
-	public Beaufort getBeaufort(int knots) {
+	public Beaufort getBeaufortFromKnots(int knots) {
 		return map.floorEntry(knots).getValue();
 	}
+	
+	public Beaufort getBeaufort(int force) {
+		// iterate over map until correct beaufort is found
+		for (Entry<Integer, Beaufort> b : map.entrySet()) {
+			if (b.getValue().n == force) 
+				return b.getValue();
+		}
+		return null;
+	}	
+	
+	/* returns the min knots for the given wind force */  
+	public int getKnotsFromBeaufort(int force) {
+		// iterate over map until correct beafor is found
+		for (Entry<Integer, Beaufort> b : map.entrySet()) {
+			if (b.getValue().n == force) 
+				return b.getKey();
+		}
+		return 0;
+	}		
 	
     public double convert(float inputValue, double constant) {
     	return inputValue * constant; 
